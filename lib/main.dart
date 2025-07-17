@@ -33,7 +33,10 @@ class _MyAppState extends State<MyApp> {
       initialRoute: 'palindrome',
       routes: {
         'palindrome': (context) => const PalindromePage(),
-        'home': (context) => const HomePage(),
+        'home': (context) {
+          final name = ModalRoute.of(context)!.settings.arguments as String;
+          return HomePage(name: name);
+        },
         'user': (context) => const UserPage(),
       },
     );

@@ -95,7 +95,8 @@ class _PalindromePageState extends State<PalindromePage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, 'home');
+                    final String name = _nameController.text;
+                    Navigator.pushNamed(context, 'home', arguments: name);
                   },
                   style: ElevatedButton.styleFrom(
                     fixedSize: const Size(200, 50),

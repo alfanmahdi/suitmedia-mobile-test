@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:suitmedia_test/models/user_model.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String name;
+
+  const HomePage({super.key, required this.name});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String _selectedUserName = 'Selected User Name';
+
+  void _navigateAndSelectUser(BuildContext context) async {
+    final result = await Navigator.pushNamed(context, 'user');
+
+    if (result != null && result is User) {
+      setState(() {
+        _selectedUserName = '${result.firstName} ${result.lastName}';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,24 +39,25 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text('Welcome', style: TextStyle(fontSize: 14)),
-            const Text(
-              'John Doe',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            Text(
+              widget.name,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Expanded(
               child: Center(
                 child: Text(
-                  "Selected User Name",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  _selectedUserName,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, 'user');
-                },
+                onPressed: () => _navigateAndSelectUser(context),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   backgroundColor: Color.fromARGB(255, 43, 99, 123),
